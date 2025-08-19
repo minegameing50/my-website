@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Signup Page</title>
+    <link rel="stylesheet" href="css/signup.css">
+  </head>
+  <body>
+    <div class="Signup-box">
+      <h2>Signup</h2>
+      <form onsubmit="validateSignup(event)">
+      <label>Full name</label><br>
+      <input type="text" class="username" id="fullname" placeholder="Full name" required><br>
+<label>Username</label><br>
+      <input type="text" class="username" id="username" placeholder="Username" required><br>
+ <label>Email ID</label><br>
+      <input type="email" class="username" id="email" placeholder="Email id" required><br>
+<label>Mobile No.</label><br>
+      <input type="number" class="username" id="mobile" placeholder="Mobile No." required><br>
+<label>OTP</label><br>
+      <input type="number" class="OTP" id="otp" placeholder="OTP" required>
+      <button type="button" id="get-otp-btn" onclick="getOTP()" class="GetOTP" >Get OTP</button><br>
+<label>Password</label><br>
+      <input type="password" class="password" id="password" placeholder="Password" required><br><br>
+      <a class="L" href="login.html">Login</a><br><br>
+      <button type="submit" class="submit">Signup</button>
+      </form>
+    </div>
+      <script src="js/signup.js"></script>
+  </body>
+</html>

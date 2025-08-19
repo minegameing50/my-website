@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Forget Password</title>
+    <link rel="stylesheet" href="css/forget.css" />
+  </head>
+  <body>
+    <div class="Forget-box">
+      <h2>Forget Password</h2>
+      <form onsubmit="validateForget(event)">
+<label>Mobile No.</label><br>
+      <input type="number" class="mobile" id="mobile" placeholder="Mobile No." required><br>
+<label>OTP</label><br>
+      <input type="number" class="OTP" id="otp" placeholder="OTP" required>
+      <button type="button" id="get-otp-btn" onclick="getOTP()" class="GetOTP" >Get OTP</button><br>
+      <button type="submit" class="submit">Continue ➔</button>
+      </form>
+    </div>
+      <script src="js/forget.js"></script>
+  </body>
+</html>
