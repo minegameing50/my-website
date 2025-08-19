@@ -1,0 +1,59 @@
+body{
+  background-image: url('https://uploads.onecompiler.io/43t6xsukx/43t9h3sjb/IMG_20250810_120229.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  height: 100%;
+}
+.Google img{
+  width: 35px;
+  height: 35px;
+  padding: 5px 0 0 0;
+}
+.Guest img{
+  width: 40px;
+  height: 40px;
+  padding: 5px 0 0 0;
+}
+.Login{
+  background-color: #06C755;
+  color: white;
+  font-weight: bold;
+  font-size: 50px;
+  border-radius: 20px;
+  margin: 1500px 0 0 150px;
+  width: 300px;
+  height: 70px;
+}
+.Signup{
+  background-color: #06C755;
+  color: white;
+  font-size: 50px;
+  font-weight: bold;
+  border-radius: 20px;
+  margin: 0 0 0 50px;
+  width: 300px;
+  height: 70px;
+}
+.Google{
+  background-color: white;
+  color: black;
+  font-size: 35px;
+  border-radius: 50px;
+  margin: 50px 0 0 35px;
+  width: 900px;
+  height: 60px;
+  font-weight: bold;
+  text-align: left;
+}
+.Guest {
+  background-color: white;
+  color: black;
+  font-size: 35px;
+  border-radius: 50px;
+  margin: 30px 0 0 35px;
+  width: 900px;
+  height: 60px;
+  font-weight: bold;
+  text-align: left;
+}
