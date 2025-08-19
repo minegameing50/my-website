@@ -83,23 +83,52 @@ function validateSignup(event) {
     return true;
             }
 
-async function signupUser() {
-    const fullname = document.getElementById("fullname").value;
-    const username = document.getElementById("username").value;
-    const email = document.getElementById("email").value;
+// Function to request OTP
+async function sendOtp() {
     const mobile = document.getElementById("mobile").value;
-    const password = document.getElementById("password").value;
+
+    if (!/^\d{10}$/.test(mobile)) {
+        alert("Enter a valid 10-digit mobile number.");
+        return;
+    }
 
     try {
-        const res = await fetch("https://977ce42d-9fda-4871-b54f-4ab1edba9dd4-00-2avyby4kt3esf.sisko.replit.dev/signup", {
+        const res = await fetch("https://977ce42d-9fda-4871-b54f-4ab1edba9dd4-00-2avyby4kt3esf.sisko.replit.dev/send-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ fullname, username, email, mobile, password })
+            body: JSON.stringify({ mobile })
         });
 
         const data = await res.json();
-        alert(data.message);
+        if (data.success) {
+            alert("OTP sent to your mobile!");
+        } else {
+            alert("Failed to send OTP. Try again.");
+        }
     } catch (err) {
-        alert("Server error. Please try again later.");
+        alert("Error contacting server.");
+    }
+}
+
+// Function to verify OTP
+async function verifyOtp() {
+    const mobile = document.getElementById("mobile").value;
+    const otp = document.getElementById("otp").value;
+
+    try {
+        const res = await fetch("https://977ce42d-9fda-4871-b54f-4ab1edba9dd4-00-2avyby4kt3esf.sisko.replit.dev/verify-otp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ mobile, otp })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+            alert("OTP Verified Successfully!");
+        } else {
+            alert("Invalid OTP, please try again.");
+        }
+    } catch (err) {
+        alert("Error contacting server.");
     }
 }
