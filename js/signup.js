@@ -82,3 +82,24 @@ function validateSignup(event) {
     window.location.href = "login.html"; // Change this to your redirect page
     return true;
             }
+
+async function signupUser() {
+    const fullname = document.getElementById("fullname").value;
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const mobile = document.getElementById("mobile").value;
+    const password = document.getElementById("password").value;
+
+    try {
+        const res = await fetch("https://977ce42d-9fda-4871-b54f-4ab1edba9dd4-00-2avyby4kt3esf.sisko.replit.dev/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ fullname, username, email, mobile, password })
+        });
+
+        const data = await res.json();
+        alert(data.message);
+    } catch (err) {
+        alert("Server error. Please try again later.");
+    }
+}
