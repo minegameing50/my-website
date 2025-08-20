@@ -1,37 +1,38 @@
 let generatedOTP = "";
 
-function getOTP() {
+// ✅ Request OTP from backend (Fast2SMS)
+async function getOTP() {
     const mobile = document.getElementById("mobile").value.trim();
 
-    // Validate mobile before generating OTP
+    // Validate mobile before sending request
     if (!/^\d{10}$/.test(mobile)) {
-        alert("Please enter a valid 10-digit mobile number first.");
+        alert("Please enter a valid 10-digit mobile number.");
         return;
     }
 
-    // Generate random 4-digit OTP
-    generatedOTP = Math.floor(1000 + Math.random() * 9000).toString();
-    alert("Your OTP is: " + generatedOTP); // In real app, send via SMS
+    try {
+        const res = await fetch("https://977ce42d-9fda-4871-b54f-4ab1edba9dd4-00-2avyby4kt3esf.sisko.replit.dev/send-otp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ mobile })
+        });
 
-    // Disable button for 30 seconds
-    const btn = document.getElementById("get-otp-btn");
-    btn.disabled = true;
-    let timeLeft = 30;
-    btn.textContent = `Wait ${timeLeft}s`;
-
-    const timer = setInterval(() => {
-        timeLeft--;
-        btn.textContent = `Wait ${timeLeft}s`;
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-            btn.disabled = false;
-            btn.textContent = "Get OTP";
+        const data = await res.json();
+        if (data.success) {
+            generatedOTP = data.otp; // keep in memory for verification (for now)
+            alert("OTP sent to your mobile number!");
+        } else {
+            alert("Failed to send OTP.");
         }
-    }, 1000);
+    } catch (err) {
+        console.error(err);
+        alert("Error contacting server.");
+    }
 }
 
-function validateSignup(event) {
-    event.preventDefault(); // Stop form from submitting
+// ✅ Validate signup form (includes OTP check)
+async function validateSignup(event) {
+    event.preventDefault(); // Stop form submission
 
     const fullName = document.getElementById("fullname").value.trim();
     const username = document.getElementById("username").value.trim();
@@ -53,19 +54,19 @@ function validateSignup(event) {
     }
 
     // Email
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
     if (!emailPattern.test(email)) {
         alert("Please enter a valid email address.");
         return false;
     }
 
     // Mobile
-    if (!/^\d{10}$/.test(mobile)) {
+    if (!/^\\d{10}$/.test(mobile)) {
         alert("Mobile number must be exactly 10 digits.");
         return false;
     }
 
-    // OTP
+    // OTP check
     if (otp !== generatedOTP) {
         alert("Invalid OTP.");
         return false;
@@ -77,58 +78,25 @@ function validateSignup(event) {
         return false;
     }
 
-    // ✅ Passed all validations
-    alert("Signup successful!");
-    window.location.href = "login.html"; // Change this to your redirect page
+    // ✅ Call backend signup API
+    try {
+        const res = await fetch("https://977ce42d-9fda-4871-b54f-4ab1edba9dd4-00-2avyby4kt3esf.sisko.replit.dev/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ fullname: fullName, username, email, mobile, password })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+            alert("Signup successful!");
+            window.location.href = "login.html";
+        } else {
+            alert("Signup failed: " + data.message);
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Server error. Please try again.");
+    }
+
     return true;
-            }
-
-// Function to request OTP
-async function sendOtp() {
-    const mobile = document.getElementById("mobile").value;
-
-    if (!/^\d{10}$/.test(mobile)) {
-        alert("Enter a valid 10-digit mobile number.");
-        return;
-    }
-
-    try {
-        const res = await fetch("https://977ce42d-9fda-4871-b54f-4ab1edba9dd4-00-2avyby4kt3esf.sisko.replit.dev/send-otp", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ mobile })
-        });
-
-        const data = await res.json();
-        if (data.success) {
-            alert("OTP sent to your mobile!");
-        } else {
-            alert("Failed to send OTP. Try again.");
         }
-    } catch (err) {
-        alert("Error contacting server.");
-    }
-}
-
-// Function to verify OTP
-async function verifyOtp() {
-    const mobile = document.getElementById("mobile").value;
-    const otp = document.getElementById("otp").value;
-
-    try {
-        const res = await fetch("https://977ce42d-9fda-4871-b54f-4ab1edba9dd4-00-2avyby4kt3esf.sisko.replit.dev/verify-otp", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ mobile, otp })
-        });
-
-        const data = await res.json();
-        if (data.success) {
-            alert("OTP Verified Successfully!");
-        } else {
-            alert("Invalid OTP, please try again.");
-        }
-    } catch (err) {
-        alert("Error contacting server.");
-    }
-}
